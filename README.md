@@ -7,4 +7,6 @@ Technologies used `React Native`, `Expo`, `Redux`
 
 Install `npm`
 
-```npm install```
+```
+npm install
+```
