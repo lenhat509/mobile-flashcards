@@ -1,57 +1,73 @@
 import React, { Component } from 'react';
-import {KeyboardAvoidingView, StyleSheet, TextInput, Button} from 'react-native'
+import {View, StyleSheet, Text, TouchableOpacity, Button} from 'react-native'
 import { connect } from 'react-redux'
-import { createDesk } from '../actions'
+import { deleteDesk } from '../actions'
 
-class CreateDesk extends Component {
-    state = { 
-        title: ''
-    }
-    onChange = (text) => {
-        this.setState({title: text})
+class Desk extends Component {
+
+    onDelete = (title) => {
+        const {dispatch, navigation} = this.props
+        dispatch(deleteDesk(title))
+        navigation.navigate('desks')
     }
 
-    onSubmit = () => {
-        const { dispatch, navigation } = this.props
-        const { title } = this.state
-        dispatch(createDesk({
-            [title]: {
-                title,
-                questions: []
-            }
-        }))
-        this.setState({title: ''})
-        navigation.navigate('desk', {title})
+    shouldComponentUpdate(nextProps) {
+        return nextProps.numberOfCards !== null
     }
 
     render() { 
+        const { navigation, title, numberOfCards } = this.props
         return ( 
-            <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.container}>
-                <TextInput style={styles.input} onChangeText={this.onChange} maxLength={50} value={this.state.title}/>
-                <Button disabled= {this.state.title === ''? true : false} title='Create' onPress={this.onSubmit}/>
-            </KeyboardAvoidingView>
+            <View style={styles.container}>
+                <Text style={styles.title}>{title}</Text>
+                <Text style={styles.numCards}>{numberOfCards} cards</Text>
+                <TouchableOpacity 
+                    style={[styles.btn, {backgroundColor: 'orange', marginTop: 100}]} 
+                    onPress={() => navigation.navigate('newCard', {title})}>
+                    <Text style={styles.btnText}>Add Card</Text>
+                </TouchableOpacity>
+                { numberOfCards !== 0 &&
+                    <TouchableOpacity 
+                        style={[styles.btn, {backgroundColor: 'black', marginBottom: 50}]}
+                        onPress={() => navigation.navigate('quiz', {title})}>
+                        <Text style={styles.btnText}>Start Quiz</Text>
+                    </TouchableOpacity>}
+                <Button title='Delete' color='red' onPress={() => this.onDelete(title)}/>
+            </View>
          );
     }
 }
 
+const mapStateToProps = (desks, {route}) => ({
+    title: route.params.title,
+    numberOfCards: desks[route.params.title]? desks[route.params.title].questions.length: null
+})
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 20,
         alignItems: 'center',
         justifyContent: 'center'
     },
-    input: {
-        height: 70,
-        borderWidth: 1,
-        borderRadius: 10,
-        width: '100%',
-        paddingLeft: 10,
-        borderColor: 'orange', 
+    title: {
+        fontSize: 25,
+        color: 'orange'
+    },
+    numCards: {
         fontSize: 20,
-        color: 'orange',
-        marginBottom: 20
+        color: 'gray'
+    },
+    btn: {
+        padding: 10,
+        borderRadius: 10,
+        width: 150,
+        alignItems: 'center',
+        margin: 5
+    },
+    btnText: {
+        fontSize: 25,
+        color: 'white'
     }
 })
 
-export default connect()(CreateDesk);
+export default connect(mapStateToProps)(Desk);
