@@ -10,3 +10,5 @@ Technologies used `React Native`, `Expo`, `Redux`
 ```
 npm install
 ```
+## Platform
+* This app have been tested and supported on both `IOS` and `Android`
