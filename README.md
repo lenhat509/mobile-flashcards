@@ -5,7 +5,7 @@ Technologies used `React Native`, `Expo`, `Redux`
 
 ## Quick Start
 
-Install `npm`
+* Install `npm`
 
 ```
 npm install
