@@ -26,11 +26,12 @@ class Desk extends Component {
                     onPress={() => navigation.navigate('newCard', {title})}>
                     <Text style={styles.btnText}>Add Card</Text>
                 </TouchableOpacity>
-                <TouchableOpacity 
-                    style={[styles.btn, {backgroundColor: 'black', marginBottom: 50}]}
-                    onPress={() => navigation.navigate('quiz', {title})}>
-                    <Text style={styles.btnText}>Start Quiz</Text>
-                </TouchableOpacity>
+                { numberOfCards !== 0 &&
+                    <TouchableOpacity 
+                        style={[styles.btn, {backgroundColor: 'black', marginBottom: 50}]}
+                        onPress={() => navigation.navigate('quiz', {title})}>
+                        <Text style={styles.btnText}>Start Quiz</Text>
+                    </TouchableOpacity>}
                 <Button title='Delete' color='red' onPress={() => this.onDelete(title)}/>
             </View>
          );

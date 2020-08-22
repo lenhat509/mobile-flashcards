@@ -1,4 +1,4 @@
-import { AsyncStorage } from 'react-native'
+import { AsyncStorage, Platform } from 'react-native'
 import * as Notifications from 'expo-notifications'
 import * as Permissions from 'expo-permissions'
 
@@ -55,10 +55,15 @@ export const setNotification = () => {
 
               Notifications.scheduleNotificationAsync({
                 content: createNotification(),
-                trigger:{
-                  repeat: 'day',
-                  time: tomorrow
-                }
+                trigger: Platform.OS === 'ios' 
+                  ? {
+                    repeat: 'day',
+                    time: tomorrow
+                  } : {
+                    hour: 20,
+                    minute: 0,
+                    repeats: true
+                  }
               }).then((identifier) => console.log(identifier))
 
               AsyncStorage.setItem(UDACITY_FLASHCARDS_NOTIFICATION, JSON.stringify(true))

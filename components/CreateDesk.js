@@ -21,12 +21,12 @@ class CreateDesk extends Component {
             }
         }))
         this.setState({title: ''})
-        navigation.navigate('desks')
+        navigation.navigate('desk', {title})
     }
 
     render() { 
         return ( 
-            <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"} style={styles.container}>
+            <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.container}>
                 <TextInput style={styles.input} onChangeText={this.onChange} maxLength={50} value={this.state.title}/>
                 <Button disabled= {this.state.title === ''? true : false} title='Create' onPress={this.onSubmit}/>
             </KeyboardAvoidingView>
@@ -50,6 +50,7 @@ const styles = StyleSheet.create({
         borderColor: 'orange', 
         fontSize: 20,
         color: 'orange',
+        marginBottom: 20
     }
 })
 
