@@ -23,7 +23,7 @@ class Quiz extends Component {
         this.setState({showAnswer: !showAnswer})
     }
 
-    finish= () => {
+    reset = () => {
         this.setState({
             current: 1,
             score: 0,
@@ -33,7 +33,7 @@ class Quiz extends Component {
     }
 
     render() { 
-        const { questions } = this.props
+        const { questions, navigation } = this.props
         const {current, score, showAnswer} = this.state
 
         if(current > questions.length)
@@ -41,8 +41,11 @@ class Quiz extends Component {
                 <View style={[styles.container, {justifyContent: 'center'}]}>
                     <Text style={styles.scoreHeader}>Your score</Text>
                     <Text style={styles.score}>{Math.round((score/questions.length)*100)}%</Text>
-                    <TouchableOpacity style={[styles.btn, {width: 200}]} onPress={this.finish}>
-                        <Text style={styles.btnText}>Click to Finish</Text>
+                    <TouchableOpacity style={[styles.btn, {backgroundColor: 'gray'}]} onPress={this.reset}>
+                        <Text style={styles.btnText}>Restart Quiz</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={[styles.btn, {backgroundColor: 'blue'}]} onPress={() => navigation.goBack()}>
+                        <Text style={styles.btnText}>Back to Deck</Text>
                     </TouchableOpacity>
                 </View>
             )
@@ -108,7 +111,8 @@ const styles = StyleSheet.create({
 
     },
     cardContainer: {
-        flex: 1
+        flex: 1,
+        width: '100%'
     },
     scoreHeader: {
         fontSize: 50,
@@ -122,9 +126,8 @@ const styles = StyleSheet.create({
     btn: {
         padding: 10,
         borderRadius: 10,
-        width: 150,
+        width: 200,
         alignItems: 'center',
-        backgroundColor: 'gray',
         marginTop: 20
     },
     btnText: {
