@@ -47,7 +47,7 @@ class App extends Component {
   render() {
     return (
       <Provider store={createStore(reducer, applyMiddleware(thunk))}>
-        <View style={{flex: 1, backgroundColor:'yellow'}}>
+        <View style={{flex: 1}}>
           <NavigationContainer>
             { Platform.OS === 'ios'
                 ? (<IOSTab.Navigator
@@ -103,5 +103,3 @@ class App extends Component {
 }}
  
 export default App;
-
-
